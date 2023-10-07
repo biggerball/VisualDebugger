@@ -2,6 +2,8 @@ package no.hvl.tk.visual.debugger;
 
 import jakarta.websocket.Session;
 import no.hvl.tk.visual.debugger.debugging.stackframe.StackFrameSessionListener;
+import no.hvl.tk.visual.debugger.settings.ActiveOption;
+import no.hvl.tk.visual.debugger.settings.PluginSettingsState;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.tyrus.server.Server;
 
@@ -12,6 +14,8 @@ public class SharedState {
 
     private SharedState() {
     }
+
+    private static boolean pluginStatus = false;
 
     // UI / Debug API related
     private static HttpServer uiServer;
@@ -42,11 +46,16 @@ public class SharedState {
     }
 
     public static boolean isDebuggingActive() {
-        return debuggingActive;
+        return ActiveOption.TRUE.equals(PluginSettingsState.getInstance().getActiveOption());
     }
 
     public static void setDebuggingActive(final boolean debuggingActive) {
         SharedState.debuggingActive = debuggingActive;
+    }
+
+    public static boolean changePluginStatus() {
+        pluginStatus = !pluginStatus;
+        return pluginStatus;
     }
 
     public static StackFrameSessionListener getDebugListener() {

@@ -15,7 +15,7 @@ public class VisualDebuggerSettingsConfigurable implements Configurable, Disposa
   @Nls(capitalization = Nls.Capitalization.Title)
   @Override
   public String getDisplayName() {
-    return "Visual Debugger Settings";
+    return "PowerMockitoHelper Settings";
   }
 
   @Override
@@ -60,6 +60,8 @@ public class VisualDebuggerSettingsConfigurable implements Configurable, Disposa
   @Override
   public void apply() {
     final PluginSettingsState settings = PluginSettingsState.getInstance();
+    settings.setActiveOption(this.settingsComponent.getActiveOption());
+
     settings.setVisualizerOption(this.settingsComponent.getDebuggingVisualizerOptionChoice());
 
     final int newDepth = Integer.parseInt(this.settingsComponent.getVisualizationDepthText());
@@ -82,6 +84,7 @@ public class VisualDebuggerSettingsConfigurable implements Configurable, Disposa
   @Override
   public void reset() {
     final PluginSettingsState settings = PluginSettingsState.getInstance();
+    this.settingsComponent.setActiveOptionsCombobox(settings.getActiveOption());
     this.settingsComponent.setVisualizationDepthText(settings.getVisualisationDepth().toString());
     this.settingsComponent.setLoadingDepthText(settings.getLoadingDepth().toString());
     this.settingsComponent.chooseDebuggingVisualizerOption(settings.getVisualizerOption());

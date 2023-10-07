@@ -3,6 +3,7 @@ package no.hvl.tk.visual.debugger.debugging.stackframe;
 import com.intellij.openapi.diagnostic.Logger;
 import com.sun.jdi.*;
 import no.hvl.tk.visual.debugger.debugging.visualization.DebuggingInfoVisualizer;
+import no.hvl.tk.visual.debugger.domain.ComponentDecorate;
 import no.hvl.tk.visual.debugger.domain.ODObject;
 import no.hvl.tk.visual.debugger.domain.PrimitiveTypes;
 import org.jetbrains.annotations.NotNull;
@@ -40,6 +41,23 @@ public class StackFrameAnalyzer {
         this.loadingDepth = loadingDepth;
         this.seenObjectIds = new HashSet<>();
     }
+
+
+    public void analyzeStackFrames() {
+        try {
+            List<StackFrame> frames = stackFrame.thread().frames();
+            for (int i = frames.size() - 1; i >= 0; i--) {
+                StackFrame stackFrame = frames.get(i);
+                if (stackFrame.thisObject() != null) {
+                    ComponentDecorate.analyzeStackFrame(stackFrame);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     /**
      * Use a default loading depth of 10.

@@ -25,14 +25,15 @@ public class VisualDebuggerSettingsComponent {
     private final ComboBox<DebuggingVisualizerOption> visualizerOptionsCombobox =
             new ComboBox<>(DebuggingVisualizerOption.values());
 
+    private final ComboBox<ActiveOption> activeOptionsCombobox =
+            new ComboBox<>(ActiveOption.values());
+
 
     public VisualDebuggerSettingsComponent(final VisualDebuggerSettingsConfigurable parent) {
         this.myMainPanel = FormBuilder.createFormBuilder()
-                                         .addLabeledComponent(new JBLabel("Choose visualizer: "), this.visualizerOptionsCombobox, 1, false)
-                                      .addLabeledComponent(new JBLabel("Initial visualization depth: "), this.visualizationDepthField, 0, false)
-                                      .addLabeledComponent(new JBLabel("Loading depth: "), this.loadingDepthField, 5, false)
-                                      .addComponentFillVertically(new JPanel(), 0)
-                                      .getPanel();
+                .addLabeledComponent(new JBLabel("Active: "), this.activeOptionsCombobox, 1, false)
+                .addComponentFillVertically(new JPanel(), 0)
+                .getPanel();
 
         this.addInputFieldValidators(parent);
     }
@@ -90,6 +91,14 @@ public class VisualDebuggerSettingsComponent {
 
     public void setVisualizationDepthText(@NotNull final String visualizationDepth) {
         this.visualizationDepthField.setText(visualizationDepth);
+    }
+
+    public ActiveOption getActiveOption() {
+        return this.activeOptionsCombobox.getItem();
+    }
+
+    public void setActiveOptionsCombobox(ActiveOption activeOption) {
+        this.activeOptionsCombobox.setItem(activeOption);
     }
 
     public DebuggingVisualizerOption getDebuggingVisualizerOptionChoice() {

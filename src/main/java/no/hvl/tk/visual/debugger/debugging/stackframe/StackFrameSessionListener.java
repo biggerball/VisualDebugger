@@ -81,7 +81,7 @@ public class StackFrameSessionListener implements XDebugSessionListener {
     }
 
     private void startVisualDebugging() {
-        if (!SharedState.isDebuggingActive()) {
+        if (SharedState.isDebuggingActive()) {
             return;
         }
         StackFrame stackFrame = this.getCorrectStackFrame(this.debugSession);
@@ -91,6 +91,7 @@ public class StackFrameSessionListener implements XDebugSessionListener {
                 this.thread,
                 this.debuggingVisualizer,
                 PluginSettingsState.getInstance().getLoadingDepth());
+        stackFrameAnalyzer.analyzeStackFrames();
         stackFrameAnalyzer.analyze();
 
         this.debuggingVisualizer.finishVisualization();
@@ -102,7 +103,7 @@ public class StackFrameSessionListener implements XDebugSessionListener {
         }
         this.userInterface = new JPanel();
         this.getOrCreateDebuggingInfoVisualizer(); // make sure visualizer is initialized
-        if (!SharedState.isDebuggingActive()) {
+        if (SharedState.isDebuggingActive()) {
             this.resetUIAndAddActivateDebuggingButton();
         } else {
             this.debuggingVisualizer.debuggingActivated();
